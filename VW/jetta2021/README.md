@@ -54,7 +54,7 @@ When a USB is inserted into the port, the media file is automatically played and
 Furthermore, if the crash is caused by a memory-related bug (such as Overflow, OOB, Over Read/Write), it can lead to serious security issues such as Remote Code Execution. Therefore, if you can analyze the crash of the media player, you may be able to identify the cause of the vulnerability.
 
 ## Volkswagen's response
-"Volkswagen acknowledged the report as a vulnerability
+Volkswagen acknowledged the report as a vulnerability
 
 ![image](https://user-images.githubusercontent.com/35731091/229770832-46b0aed6-74e0-4616-a7a9-0fed197bdff1.png)
 
