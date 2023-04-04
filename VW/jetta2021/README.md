@@ -1,4 +1,4 @@
-# Infotainment System of Volkswagen Jetta(2021) Vulnerability
+# Volkswagen Jetta (2021) Infotainment System Vulnerability Report
 
 I reported a vulnerability to "https://www.volkswagen.de/de/mehr/rechtliches/kontakt-cyber-security.html"
 
