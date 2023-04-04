@@ -37,4 +37,5 @@ Volkswagen's infotainment system has a USB Plug and Play feature, which means th
 I identified a media file through fuzzing that could trigger vulnerabilities in the infotainment system, and proved this by using a USB stick. 
 As a result, Volkswagen's infotainment system did not turn on again after being turned off. 
 
-<u> The issue persisted even after turning off and on the engine(Even removing the USB drive did not resolve the issue with the infotainment system not turning on again.), and manual reboot of the infotainment system was required to resolve the issue.</u>  
+**The issue persisted even after turning off and on the engine(Even removing the USB drive did not resolve the issue with the infotainment system not turning on again.), and manual reboot of the infotainment system was required to resolve the issue.**
+
