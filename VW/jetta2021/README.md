@@ -48,7 +48,6 @@ As a result, Volkswagen's infotainment system did not turn on again after being 
 <img width="80%" src="https://user-images.githubusercontent.com/35731091/229767110-531f5a83-3133-4d06-8bde-09e6246434ee.mp4"/>
 
 ## Impact
-![image](https://user-images.githubusercontent.com/35731091/229776652-01f61c89-8601-42e4-bab3-4419f16d338e.png)
 
 When a USB is inserted into the port, the media file is automatically played and the Infotainment System is forcibly terminated. This can be a problem with availability. 
 Furthermore, if the crash is caused by a memory-related bug (such as Overflow, OOB, Over Read/Write), it can lead to serious security issues such as Remote Code Execution. Therefore, if you can analyze the crash of the media player, you may be able to identify the cause of the vulnerability.
