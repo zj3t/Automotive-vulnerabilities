@@ -15,6 +15,7 @@ ZOE EV 2021
 ### Version
 
 It was the latest version as of January 16, 2023.
+
 SW version : 283C35519R
 
 ![image](https://github.com/zj3t/Automotive-vulnerabilities/assets/35731091/7d0f793d-032c-4379-938d-e071b546e4e8)
@@ -25,10 +26,16 @@ SW version : 283C35519R
 
 A vulnerability exists in Renault's Infotainment System(Discover Media). I attempted media file fuzzing to find vulnerabilities in Renault's infotainment system.
 
-To automate the fuzzing process(Because transferring files to a USB stick is time consuming), I connected my RPI4 to Renault's USB port and generated numerous media files with a fuzzer. I then continuously performed real-time media fuzzing by mounting and unmounting the files. I conducted fuzzing on various types of media files such as WAV, MP3, WMA and discovered that the vulnerability existed in a malicious (mutated) WMA file.
+To automate the fuzzing process(Because transferring files to a USB stick is time consuming), I connected my RPI4 to Renault's USB port and generated numerous media files with a fuzzer. 
+
+I then continuously performed real-time media fuzzing by mounting and unmounting the files. 
+
+I conducted fuzzing on various types of media files such as WAV, MP3, WMA and discovered that the vulnerability existed in a malicious (mutated) WMA file.
 
 If you create a malicious *.WMA file and play it on ZOE, it reboots.
+
 The vulnerability can be reproduced by inserting the WMA media file into a USB device and connecting it to the vehicle.
+
 The causes of the crash are as follows.
 ![image](https://github.com/zj3t/Automotive-vulnerabilities/assets/35731091/0df353dc-7ba5-47cf-9148-8c78fd9cade5)
 
@@ -36,6 +43,7 @@ In the WMA file,  Activation of the corresponding 0x14th byte causes a crash.
 
 ## Result
 Renault's infotainment system has a USB Plug and Play feature, which means that media files stored on a USB drive will automatically play when inserted into the system.
+
 I identified a media file through fuzzing that could trigger vulnerabilities in the infotainment system, and proved this by using a USB stick. 
 
 ### DEMO
