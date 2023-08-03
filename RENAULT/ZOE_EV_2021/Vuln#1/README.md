@@ -15,6 +15,7 @@ ZOE EV 2021
 ### Version
 
 It was the latest version as of November 10, 2023.
+SW Version : 283C35202R
 
 ![image](https://github.com/zj3t/Automotive-vulnerabilities/assets/35731091/7bad2676-7777-4ba0-b8a3-3fffe8424cd9)
 
