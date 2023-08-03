@@ -22,7 +22,9 @@ It was the latest version as of January 16, 2023.
 
 ![image](https://user-images.githubusercontent.com/35731091/229762099-36991d9d-1487-41ae-b9d9-b15e1065be14.png)
 
-A vulnerability exists in ZOE's media player.
+A vulnerability exists in Renault's Infotainment System(Discover Media). I attempted media file fuzzing to find vulnerabilities in Renault's infotainment system.
+
+To automate the fuzzing process(Because transferring files to a USB stick is time consuming), I connected my RPI4 to Renault's USB port and generated numerous media files with a fuzzer. I then continuously performed real-time media fuzzing by mounting and unmounting the files. I conducted fuzzing on various types of media files such as WAV, MP3, WMA and discovered that the vulnerability existed in a malicious (mutated) WMA file.
 
 If you create a malicious *.WMA file and play it on ZOE, it reboots.
 The vulnerability can be reproduced by inserting the WMA media file into a USB device and connecting it to the vehicle.
