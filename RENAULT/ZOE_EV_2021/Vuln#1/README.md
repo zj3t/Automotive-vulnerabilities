@@ -1,45 +1,60 @@
-# Renault Group - ZOE Bug Report
+# ZOE EV (2021) Infotainment System Vulnerability Report
 
-•	Time and date of discovery
-12.28.2022 (Korea Standard Time)
-•	Product Model & number
-2021, Renault ZOE EV
-•	Technical Description
-When you connect a USB storage device containing manipulated media files (MP3, WMA, OGG …) in a Renault ZOE EV(2021) vehicle, an error occurs during the process of loading the media files, causing the infotainment system to restart.
-The cause of the issue that we analyzed is as follows:
-MP3 files use a metadata format called ID3 in the header. Information related to the music file, such as the title of the music, the name of the musician, genre, etc. is included in the header. ID3 uses ID3v1 and ID3v2 versions.
-The format of these ID3 tags starts with Tag Identifier (3byte) | Tag Version (2bytes) | Flags (1byte) | Size of Tags (4byte), followed by actual tag information in the form of variable fields.
-The variable fields consist of Frame Identifier (4byte) | Frame Size (4byte) | Flags (2byte) | Data.
-In the case of inputting ASCII data such as \xb9\xb9 outside the Unicode range in the Flags (2byte) area of the variable field. 
-In addition to the flag (which consists of 2 bytes), the next 1 byte of data must also be modulated. This results in a total of 3 bytes being modulated to generate a crash: 2 bytes for the flag and 1 byte for the data. (e,g., 00 00 00  e1 a0 8e)
-It is expected that unexpected error will occur during the parsing process in the Renault ZOE EV(2021) vehicle media player, resulting in a crash.
- 
-•	Sample Code
-Our vulnerability is not something that operates through code, but manipulated media files.
-I will attach these media files.
-•	Reporting’s party Contact Information 
-For review and inquiry. please contact us through the following contact information.
-etjang@autocrypt.io
-dhjeong@autocrypt.io
-Thank you. 
-•	Disclosure Plan(s)
-Without your specific mention, it is likely to be used in the DEFCON presentation material.
-•	Threat/Risk Assessment
-CVSS 3.0 Score (4.6)
-Since our vulnerability connects to the vehicle via a USB device, it is physical and the attack is not complex.
-Just plugging a USB with malicious MP3 media files into the vehicle.
-Additionally, the attack does not require permission and does not require user interaction(UI) controls.
-Finally, we assigned the highest score to Availability, as the attack does not violate confidentiality or integrity,
-This vulnerability completely shuts down and reboots the vehicle infotainment system.
- 
- 
-•	Software Configuration
-Software version. 283C35202R
-Lasted Update. 11.10.2021
- 
+I reported a vulnerability to "https://www.renaultgroup.com/en/vulnerability-disclosure-policy"
 
-•	Relevant information about connected devices 
-We have stored media files through a USB Storage device and connected it to the front USB connection of the Renault ZOE EV(2021) vehicles.
-•	DEMO
-We accept the form for this report via email. The email will contain attached sample files and a demo video.
-![image](https://github.com/zj3t/Automotive-vulnerabilities/assets/35731091/496bf65f-fbdd-453a-a866-2039ac9884f6)
+## Time and date of discovery
+2022.12.28 (Korea Standard Time)
+
+## Target
+### Product Model
+
+ZOE EV 2021
+
+![Uploading image.png…]()
+
+
+### Version
+
+It was the latest version as of February 28, 2023.
+
+![image](https://user-images.githubusercontent.com/35731091/229760756-310af850-921a-4dbf-8da1-9e9c13bd9506.png)
+![image](https://user-images.githubusercontent.com/35731091/229760781-ca76aa93-0cdc-47b6-a4fe-5dbcbd9d36db.png)
+
+Discover Media(infotainment system of VW) software : 0876 </br>
+Media codec : 1.2.0
+
+## Technical Description
+
+![image](https://user-images.githubusercontent.com/35731091/229762099-36991d9d-1487-41ae-b9d9-b15e1065be14.png)
+
+A vulnerability exists in Volkswagen's Infotainment System(Discover Media).
+I attempted media file fuzzing to find vulnerabilities in Volkswagen's infotainment system.
+
+To automate the fuzzing process(Because transferring files to a USB stick is time consuming), I connected my laptop to Volkswagen's USB port and generated numerous media files with a fuzzer. I then continuously performed real-time media fuzzing by mounting and unmounting the files.
+I conducted fuzzing on various types of media files such as WAV, MP3, WMA, and OGG, and discovered that the vulnerability existed in a malicious (mutated) OGG file.
+Since Volkswagen's media player was more robust than expected, I created a separate media file fuzzer specifically for Volkswagen's infotainment system.
+I fuzzed more than 20,000 media files per day, and discovered the vulnerability in the OGG file after one day of fuzzing.
+
+## Result
+Volkswagen's infotainment system has a USB Plug and Play feature, which means that media files stored on a USB drive will automatically play when inserted into the system.
+I identified a media file through fuzzing that could trigger vulnerabilities in the infotainment system, and proved this by using a USB stick. 
+As a result, Volkswagen's infotainment system did not turn on again after being turned off. 
+
+**The issue persisted even after turning off and on the engine(Even removing the USB drive did not resolve the issue with the infotainment system not turning on again.), and manual reboot of the infotainment system was required to resolve the issue.**
+
+### DEMO #1
+<img width="80%" src="https://user-images.githubusercontent.com/35731091/229770054-6dea74c0-08d7-40e9-bec4-037a053eb421.mp4"/>
+
+### DEMO #2
+<img width="80%" src="https://user-images.githubusercontent.com/35731091/229767110-531f5a83-3133-4d06-8bde-09e6246434ee.mp4"/>
+
+## Impact
+
+When a USB is inserted into the port, the media file is automatically played and the Infotainment System is forcibly terminated. This can be a problem with availability. 
+Furthermore, if the crash is caused by a memory-related bug (such as Overflow, OOB, Over Read/Write), it can lead to serious security issues such as Remote Code Execution. Therefore, if you can analyze the crash of the media player, you may be able to identify the cause of the vulnerability.
+
+## Volkswagen's response
+Volkswagen acknowledged the report as a vulnerability
+
+![image](https://user-images.githubusercontent.com/35731091/229770832-46b0aed6-74e0-4616-a7a9-0fed197bdff1.png)
+
