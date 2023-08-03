@@ -3,7 +3,7 @@
 I reported a vulnerability to "https://www.renaultgroup.com/en/vulnerability-disclosure-policy"
 
 ## Time and date of discovery
-2022.12.28 (Korea Standard Time)
+2022.12.28 (Korea Standard Time) - Date I reported the vulnerability to Renault.
 
 ## Target
 ### Product Model
@@ -22,36 +22,34 @@ It was the latest version as of November 10, 2023.
 
 ## Technical Description
 
-![image](https://user-images.githubusercontent.com/35731091/229762099-36991d9d-1487-41ae-b9d9-b15e1065be14.png)
+When you connect a USB storage device containing manipulated media files (MP3, WMA, OGG …) in a Renault ZOE EV(2021) vehicle, an error occurs during the process of loading the media files, causing the infotainment system to restart.
 
-A vulnerability exists in Volkswagen's Infotainment System(Discover Media).
-I attempted media file fuzzing to find vulnerabilities in Volkswagen's infotainment system.
+The cause of the issue that we analyzed is as follows:
+MP3 files use a metadata format called ID3 in the header. Information related to the music file, such as the title of the music, the name of the musician, genre, etc. is included in the header. ID3 uses ID3v1 and ID3v2 versions.
 
-To automate the fuzzing process(Because transferring files to a USB stick is time consuming), I connected my laptop to Volkswagen's USB port and generated numerous media files with a fuzzer. I then continuously performed real-time media fuzzing by mounting and unmounting the files.
-I conducted fuzzing on various types of media files such as WAV, MP3, WMA, and OGG, and discovered that the vulnerability existed in a malicious (mutated) OGG file.
-Since Volkswagen's media player was more robust than expected, I created a separate media file fuzzer specifically for Volkswagen's infotainment system.
-I fuzzed more than 20,000 media files per day, and discovered the vulnerability in the OGG file after one day of fuzzing.
+The format of these ID3 tags starts with Tag Identifier (3byte) | Tag Version (2bytes) | Flags (1byte) | Size of Tags (4byte), followed by actual tag information in the form of variable fields.
+The variable fields consist of Frame Identifier (4byte) | Frame Size (4byte) | Flags (2byte) | Data.
+In the case of inputting ASCII data such as \xb9\xb9 outside the Unicode range in the Flags (2byte) area of the variable field. 
+In addition to the flag (which consists of 2 bytes), the next 1 byte of data must also be modulated. This results in a total of 3 bytes being modulated to generate a crash: 2 bytes for the flag and 1 byte for the data. (e,g., 00 00 00  e1 a0 8e)
+It is expected that unexpected error will occur during the parsing process in the Renault ZOE EV(2021) vehicle media player, resulting in a crash.
+
+![image](https://github.com/zj3t/Automotive-vulnerabilities/assets/35731091/fe9fcb24-0a48-4dbe-8b5d-2d2f88e47501)
+
+
 
 ## Result
-Volkswagen's infotainment system has a USB Plug and Play feature, which means that media files stored on a USB drive will automatically play when inserted into the system.
+Renault's infotainment system has a USB Plug and Play feature, which means that media files stored on a USB drive will automatically play when inserted into the system.
 I identified a media file through fuzzing that could trigger vulnerabilities in the infotainment system, and proved this by using a USB stick. 
-As a result, Volkswagen's infotainment system did not turn on again after being turned off. 
-
-**The issue persisted even after turning off and on the engine(Even removing the USB drive did not resolve the issue with the infotainment system not turning on again.), and manual reboot of the infotainment system was required to resolve the issue.**
 
 ### DEMO #1
-<img width="80%" src="https://user-images.githubusercontent.com/35731091/229770054-6dea74c0-08d7-40e9-bec4-037a053eb421.mp4"/>
+
 
 ### DEMO #2
-<img width="80%" src="https://user-images.githubusercontent.com/35731091/229767110-531f5a83-3133-4d06-8bde-09e6246434ee.mp4"/>
+
 
 ## Impact
 
 When a USB is inserted into the port, the media file is automatically played and the Infotainment System is forcibly terminated. This can be a problem with availability. 
 Furthermore, if the crash is caused by a memory-related bug (such as Overflow, OOB, Over Read/Write), it can lead to serious security issues such as Remote Code Execution. Therefore, if you can analyze the crash of the media player, you may be able to identify the cause of the vulnerability.
 
-## Volkswagen's response
-Volkswagen acknowledged the report as a vulnerability
-
-![image](https://user-images.githubusercontent.com/35731091/229770832-46b0aed6-74e0-4616-a7a9-0fed197bdff1.png)
 
