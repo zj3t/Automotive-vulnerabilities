@@ -24,7 +24,11 @@ It was the latest version as of November 10, 2023.
 
 ![image](https://github.com/zj3t/Automotive-vulnerabilities/assets/35731091/19501a4a-d42b-4af7-80aa-df7e4df46f96)
 
-When you connect a USB storage device containing manipulated media files (MP3, WMA, OGG …) in a Renault ZOE EV(2021) vehicle, an error occurs during the process of loading the media files, causing the infotainment system to restart.
+A vulnerability exists in Renault's Infotainment System(Discover Media). I attempted media file fuzzing to find vulnerabilities in Renault's infotainment system.
+
+To automate the fuzzing process(Because transferring files to a USB stick is time consuming), I connected my RPI4 to Renault's USB port and generated numerous media files with a fuzzer. I then continuously performed real-time media fuzzing by mounting and unmounting the files. I conducted fuzzing on various types of media files such as WAV, MP3, WMA and discovered that the vulnerability existed in a malicious (mutated) MP3 file.
+
+When you connect a USB storage device containing manipulated craft mp3 media files in a Renault ZOE EV(2021) vehicle, an error occurs during the process of loading the media files, causing the infotainment system to restart.
 
 The cause of the issue that we analyzed is as follows:
 MP3 files use a metadata format called ID3 in the header. Information related to the music file, such as the title of the music, the name of the musician, genre, etc. is included in the header. ID3 uses ID3v1 and ID3v2 versions.
