@@ -1,4 +1,4 @@
-# ZOE EV (2021) Infotainment System Vulnerability Report
+# ZOE EV (2021) Infotainment System Vulnerability Report #1
 
 I reported a vulnerability to "https://www.renaultgroup.com/en/vulnerability-disclosure-policy"
 
@@ -14,13 +14,11 @@ ZOE EV 2021
 
 ### Version
 
-It was the latest version as of February 28, 2023.
+It was the latest version as of November 10, 2023.
 
-![image](https://user-images.githubusercontent.com/35731091/229760756-310af850-921a-4dbf-8da1-9e9c13bd9506.png)
-![image](https://user-images.githubusercontent.com/35731091/229760781-ca76aa93-0cdc-47b6-a4fe-5dbcbd9d36db.png)
+![image](https://github.com/zj3t/Automotive-vulnerabilities/assets/35731091/7bad2676-7777-4ba0-b8a3-3fffe8424cd9)
 
-Discover Media(infotainment system of VW) software : 0876 </br>
-Media codec : 1.2.0
+
 
 ## Technical Description
 
