@@ -10,8 +10,7 @@ I reported a vulnerability to "https://www.renaultgroup.com/en/vulnerability-dis
 
 ZOE EV 2021
 
-![Uploading image.png…]()
-
+![image](https://github.com/zj3t/Automotive-vulnerabilities/assets/35731091/6fbbada2-025f-40c0-86b1-1796b41d24d8)
 
 ### Version
 
